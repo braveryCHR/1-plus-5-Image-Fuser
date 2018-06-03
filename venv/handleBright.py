@@ -86,6 +86,7 @@ def pixel_bright_tranfer(source_pixel, gamma_map):
 def get_gamma(rate_value):
     gamma_res = []
     for i in range(0, 256):
-        now_gamma = math.exp(math.log((i + 0.5) / 256.0 * rate_value)) * 255.0
+        now_gamma = int((math.pow((i + 0.5) / 256, 1 / rate_value)) * 256 - 0.5)
+        #math.exp(math.log((i + 0.5) / 256.0 * rate_value)) * 255.0
         gamma_res.append(now_gamma)
     return gamma_res
