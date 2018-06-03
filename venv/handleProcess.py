@@ -52,10 +52,11 @@ if __name__ == "__main__":
 
     human = Image.open(address + "human.jpg")
     new_scenes = []
+    for i in range(0,len(scenes)):
+        new_scenes.append(coltmp_tranfer(scenes[i]))
+        new_scenes[i].save(address + "col" + srcNames[i])
     for i in range(0, len(srcNames)):
-        new_scenes.append(handleBright.weighted_bright_tranfer(human, scenes[i], masks[i],laps[i]))
-    for scene in new_scenes:
-        scene = coltmp_tranfer(scene)
+        new_scenes[i]=handleBright.weighted_bright_tranfer(human, new_scenes[i], masks[i],laps[i])
     for i in range(0, len(srcNames)):
         new_scenes[i].save(address + "new" + srcNames[i])
     human = coltmp_tranfer(human)
