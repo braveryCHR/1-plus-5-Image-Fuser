@@ -20,12 +20,12 @@ def bright_ness(im_open_file):
 def weighted_bright_ness(image, mask):
     width, height = image.size
     image_pixels = list(image.getdata())
-    #print(image_pixels[0],"haha")
+    # print(image_pixels[0],"haha")
     mask_pixels = list(mask.getdata())
-    #print(mask_pixels[20000],"sb")
+    # print(mask_pixels[20000],"sb")
     allSize = width * height
     sumR, sumG, sumB = 0, 0, 0
-    #print(mask_pixels)
+    # print(mask_pixels)
     for pos in range(0, allSize):
         mask_pixel = mask_pixels[pos]
         if mask_pixel <= 0:
@@ -62,7 +62,7 @@ def bright_tranfer(source_im, source_bright, target_bright):
 
 # 在有mask的前提下进行光照重整
 def weighted_bright_tranfer(human, scene, mask, lap):
-    #print(list(mask.getdata()))
+    # print(list(mask.getdata()))
     human_bright = weighted_bright_ness(human, mask)
     lap_bright = weighted_bright_ness(lap, mask)
     new_scene = bright_tranfer(scene, lap_bright, human_bright)
@@ -85,8 +85,14 @@ def pixel_bright_tranfer(source_pixel, gamma_map):
 # 为了实现加速，建立gamma函数映射表
 def get_gamma(rate_value):
     gamma_res = []
+    if rate_value > 1:
+        rate_value = 1 + (rate_value - 1) * 1
+    elif rate_value < 1:
+        rate_value = 1 - (1 - rate_value) * 1
+    else:
+        rate_value = 1
     for i in range(0, 256):
         now_gamma = int((math.pow((i + 0.5) / 256, 1 / rate_value)) * 256 - 0.5)
-        #math.exp(math.log((i + 0.5) / 256.0 * rate_value)) * 255.0
+        # math.exp(math.log((i + 0.5) / 256.0 * rate_value)) * 255.0
         gamma_res.append(now_gamma)
     return gamma_res
